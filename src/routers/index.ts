@@ -1,2 +1,2 @@
-export { router as authRouter } from './authRouter';
-export { router as userRouter } from './userRouter';
+export { router as authRouter } from './auth.router';
+export { router as userRouter } from './user.router';
