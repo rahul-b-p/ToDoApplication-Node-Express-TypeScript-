@@ -30,6 +30,20 @@ export const findUserById = async (id: string): Promise<userSchema> => {
     });
 }
 
+export const findUserByMail = async (email:string):Promise<userSchema|null> =>{
+    return new Promise(async(resolve,reject)=>{
+        try {
+            const users: userSchema[] | [] = await findUsers();
+            const user: userSchema | undefined = users.find(item => item.email == email);
+            if (user) resolve(user);
+            else resolve(null);
+        } catch (error) {
+            loggers.error(error);
+            reject({ status: 500, error: new Error(`Cant find user due to ${error} `) });
+        }
+    })
+}
+
 export const saveUsers = async (users: userSchema[] | []): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
         try {
@@ -87,19 +101,6 @@ export const deleteUserById = async (id: string): Promise<boolean> => {
                 await saveUsers(users);
                 resolve(true)
             }
-        } catch (error) {
-            loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant delete user due to ${error} `) });
-        }
-    });
-}
-
-export const deleteAllUsers = (): Promise<boolean> => {
-    return new Promise<boolean>(async (resolve, reject) => {
-        try {
-            const users: any[] = [];
-            saveUsers(users);
-            resolve(true);
         } catch (error) {
             loggers.error(error);
             reject({ status: 500, error: new Error(`Cant delete user due to ${error} `) });

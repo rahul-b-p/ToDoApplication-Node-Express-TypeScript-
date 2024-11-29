@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyPassword = exports.getEncryptedPassword = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const getEncryptedPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
-    const salt = bcrypt_1.default.genSaltSync(10);
+    const salt = bcrypt_1.default.genSaltSync(Number(process.env.SALT));
     const encryptedPassword = yield bcrypt_1.default.hash(password, salt);
     return encryptedPassword;
 });

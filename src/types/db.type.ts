@@ -2,7 +2,7 @@ export interface userSchema {
     id: string,
     username: string,
     email: string,
-    password: string
+    hashPassword: string
 }
 
 export interface todoSchema {

@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import { loggers } from '../utils/winston.util';
 
 export const getEncryptedPassword =async(password:string)=>{
-    const salt = bcrypt.genSaltSync(10);
+    const salt = bcrypt.genSaltSync(Number(process.env.SALT));
     const encryptedPassword:string = await bcrypt.hash(password,salt);
     return encryptedPassword;
 }

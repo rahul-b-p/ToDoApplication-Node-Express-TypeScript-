@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAllUsers = exports.deleteUserById = exports.updateUserById = exports.insertUser = exports.saveUsers = exports.findUserById = exports.findUsers = void 0;
+exports.deleteUserById = exports.updateUserById = exports.insertUser = exports.saveUsers = exports.findUserByMail = exports.findUserById = exports.findUsers = void 0;
 const winston_util_1 = require("../utils/winston.util");
 const file_service_1 = require("./file.service");
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,6 +43,23 @@ const findUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }));
 });
 exports.findUserById = findUserById;
+const findUserByMail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const users = yield (0, exports.findUsers)();
+            const user = users.find(item => item.email == email);
+            if (user)
+                resolve(user);
+            else
+                resolve(null);
+        }
+        catch (error) {
+            winston_util_1.loggers.error(error);
+            reject({ status: 500, error: new Error(`Cant find user due to ${error} `) });
+        }
+    }));
+});
+exports.findUserByMail = findUserByMail;
 const saveUsers = (users) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -113,17 +130,3 @@ const deleteUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }));
 });
 exports.deleteUserById = deleteUserById;
-const deleteAllUsers = () => {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const users = [];
-            (0, exports.saveUsers)(users);
-            resolve(true);
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant delete user due to ${error} `) });
-        }
-    }));
-};
-exports.deleteAllUsers = deleteAllUsers;
