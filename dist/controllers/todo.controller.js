@@ -9,7 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteTodoController = exports.updateTodoController = exports.readTodoController = exports.createTodoController = void 0;
 const createTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
+exports.createTodoController = createTodoController;
 const readTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
+exports.readTodoController = readTodoController;
+const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.updateTodoController = updateTodoController;
+const deleteTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.deleteTodoController = deleteTodoController;

@@ -2,10 +2,20 @@ import { Request, Response } from "express";
 
 
 
-const createTodoController = async (req: Request, res: Response) => {
+export const createTodoController = async (req: Request, res: Response) => {
 
 }
 
-const readTodoController = async (req: Request, res: Response) => {
-    
+
+export const readTodoController = async (req: Request, res: Response) => {
+
+}
+
+
+export const updateTodoController = async (req: Request, res: Response) => {
+
+}
+
+export const deleteTodoController = async (req: Request, res: Response) => {
+
 }

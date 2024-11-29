@@ -1,5 +1,32 @@
 {
-    "users":[],
-    "tokens":[],
-    "todos":[]
+  "users": [
+    {
+      "username": "user1",
+      "id": "2w4rfs73",
+      "email": "user@gmail.com",
+      "password": "user@123"
+    },
+    {
+      "id": "2626sbsh",
+      "username": "user2",
+      "password": "user@1234,",
+      "email": "user2@gmail.com"
+    }
+  ],
+  "todos": [
+    {
+      "id": "17fh23sjs",
+      "userId": "2626sbsh",
+      "description": "swim in the pool",
+      "completed": true,
+      "timestamp": 1344
+    },
+    {
+      "id": "13egH366",
+      "userId": "2w4rfs73",
+      "description": "run around the ground",
+      "completed": true,
+      "timestamp": 1344455
+    }
+  ]
 }
