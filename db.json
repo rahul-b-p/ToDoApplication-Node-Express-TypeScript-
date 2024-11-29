@@ -1,18 +1,4 @@
 {
-  "users": [
-    {
-      "username": "user1",
-      "id": "2w4rfs73",
-      "email": "user@gmail.com",
-      "password": "user@123"
-    },
-    {
-      "id": "2626sbsh",
-      "username": "user2",
-      "password": "user@1234,",
-      "email": "user2@gmail.com"
-    }
-  ],
   "todos": [
     {
       "id": "17fh23sjs",
@@ -27,6 +13,20 @@
       "description": "run around the ground",
       "completed": true,
       "timestamp": 1344455
+    }
+  ],
+  "users": [
+    {
+      "id": "2w4rfs73",
+      "username": "user1",
+      "email": "user1@gmail.com",
+      "password": "user@1"
+    },
+    {
+      "id": "2026ggH25",
+      "username": "user2",
+      "email": "user2@gmail.com",
+      "password": "user@12"
     }
   ]
 }
