@@ -10,7 +10,7 @@ const getAccessToken = (id) => {
     if (!secretKey) {
         throw new Error('Access token secret is not defined');
     }
-    const accessToken = jsonwebtoken_1.default.sign({ id }, secretKey, { expiresIn: '1h' });
+    const accessToken = jsonwebtoken_1.default.sign({ id }, secretKey, { expiresIn: '7h' });
     return accessToken;
 };
 exports.getAccessToken = getAccessToken;

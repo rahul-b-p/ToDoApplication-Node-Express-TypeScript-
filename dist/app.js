@@ -12,6 +12,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use('/auth', routers_1.authRouter);
+app.use('/user', routers_1.userRouter);
 app.listen(port, () => {
     winston_util_1.loggers.info(`Server Running At http://localhost:${port}`);
 });
