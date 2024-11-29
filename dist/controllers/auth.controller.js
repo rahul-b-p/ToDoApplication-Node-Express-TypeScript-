@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signupController = exports.loginController = void 0;
-const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-});
-exports.loginController = loginController;
+exports.loginController = exports.signupController = void 0;
 const signupController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signupController = signupController;
+const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.loginController = loginController;
