@@ -10,6 +10,8 @@ exports.router = (0, express_1.Router)();
 exports.router.get('/read', auth_middleware_1.authMiddleware, controllers_2.readAllUsersControlller);
 // update user
 exports.router.put('/update', auth_middleware_1.authMiddleware, controllers_2.updateUserConroller);
+// delete user
+exports.router.put('/delete', auth_middleware_1.authMiddleware, controllers_1.deleteUserController);
 // create todo
 exports.router.post('/create-todo', auth_middleware_1.authMiddleware, controllers_1.createTodoController);
 // read all todos

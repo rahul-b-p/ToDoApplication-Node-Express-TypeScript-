@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { customRequest, updateUserBody, userSchema } from "../types";
-import { findUserById, findUsers, updateUserById } from "../services";
+import { deleteUserById, findUserById, findUsers, updateUserById } from "../services";
 import { loggers } from "../utils/winston.util";
 import { getEncryptedPassword, verifyPassword } from "../config";
 
@@ -75,3 +75,25 @@ export const updateUserConroller = async (req: customRequest<{}, any, updateUser
     }
 }
 
+export const deleteUserController = async (req: customRequest, res: Response) => { 
+    try {
+        const id: string | undefined = req.payload?.id;
+        if (!id) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+
+        const existingUser: userSchema | undefined = await findUserById(id);
+        if (!existingUser) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+
+        await deleteUserById(id);
+        res.statusMessage="Deleted User";
+        res.status(200).json({message:'Your Account has been removed successfully'});
+    } catch (error) {
+        loggers.error(error);
+        res.status(500).json({ message: 'Something went wrong', error });
+    }
+}

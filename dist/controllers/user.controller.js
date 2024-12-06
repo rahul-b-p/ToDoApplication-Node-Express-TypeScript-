@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserConroller = exports.readAllUsersControlller = void 0;
+exports.deleteUserController = exports.updateUserConroller = exports.readAllUsersControlller = void 0;
 const services_1 = require("../services");
 const winston_util_1 = require("../utils/winston.util");
 const config_1 = require("../config");
@@ -76,3 +76,26 @@ const updateUserConroller = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.updateUserConroller = updateUserConroller;
+const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const id = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
+        if (!id) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        const existingUser = yield (0, services_1.findUserById)(id);
+        if (!existingUser) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        yield (0, services_1.deleteUserById)(id);
+        res.statusMessage = "Deleted User";
+        res.status(200).json({ message: 'Your Account has been removed successfully' });
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        res.status(500).json({ message: 'Something went wrong', error });
+    }
+});
+exports.deleteUserController = deleteUserController;

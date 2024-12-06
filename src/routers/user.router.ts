@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTodoController, deleteTodoController, deleteTodosByUser, readAllTodoController, readTodosByUserController, updateTodoController } from '../controllers';
+import { createTodoController, deleteTodoController, deleteTodosByUser, deleteUserController, readAllTodoController, readTodosByUserController, updateTodoController } from '../controllers';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { readAllUsersControlller, updateUserConroller } from '../controllers';
 
@@ -10,6 +10,9 @@ router.get('/read',authMiddleware,readAllUsersControlller)
 
 // update user
 router.put('/update',authMiddleware,updateUserConroller)
+
+// delete user
+router.put('/delete',authMiddleware, deleteUserController)
 
 // create todo
 router.post('/create-todo', authMiddleware, createTodoController);
