@@ -3,7 +3,7 @@ import { loggers } from "../utils/winston.util";
 import { readData, writeData } from "./file.service"
 
 
-export const findTodos = async(): Promise<todoSchema[] | []> => {
+export const findTodos = async (): Promise<todoSchema[] | []> => {
     return new Promise<todoSchema[] | []>(async (resolve, reject) => {
         try {
             const data: JsonDataBase = await readData();
@@ -16,7 +16,7 @@ export const findTodos = async(): Promise<todoSchema[] | []> => {
     });
 }
 
-export const findTodoById = async(id: string): Promise<todoSchema> => {
+export const findTodoById = async (id: string): Promise<todoSchema> => {
     return new Promise<todoSchema>(async (resolve, reject) => {
         try {
             const todos: todoSchema[] | [] = await findTodos();
@@ -44,7 +44,7 @@ export const findTodosByUserId = async (userId: string): Promise<todoSchema[]> =
     });
 }
 
-export const saveTodos = async(todos: todoSchema[]|[]): Promise<boolean> => {
+export const saveTodos = async (todos: todoSchema[] | []): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
         try {
             const data: JsonDataBase = await readData();
@@ -58,7 +58,7 @@ export const saveTodos = async(todos: todoSchema[]|[]): Promise<boolean> => {
     });
 }
 
-export const insertTodo = async(newTodo: todoSchema): Promise<boolean> => {
+export const insertTodo = async (newTodo: todoSchema): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
         try {
             const todos: todoSchema[] = await findTodos();
@@ -72,10 +72,10 @@ export const insertTodo = async(newTodo: todoSchema): Promise<boolean> => {
     });
 }
 
-export const updateTodoById = async(id: string, updateTodo: todoSchema): Promise<boolean> => {
+export const updateTodoById = async (id: string, updateTodo: todoSchema): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
         try {
-            const todos: todoSchema[]|[] = await findTodos();
+            const todos: todoSchema[] | [] = await findTodos();
             const updateIndex = todos.findIndex(item => item.id == id);
             if (updateIndex == -1) reject({ status: 404, error: new Error("Can't find a todo with given ID") });
             else {
@@ -90,10 +90,10 @@ export const updateTodoById = async(id: string, updateTodo: todoSchema): Promise
     });
 }
 
-export const deleteTodoById = async(id: string): Promise<boolean> => {
+export const deleteTodoById = async (id: string): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
         try {
-            const todos: todoSchema[]|[] = await findTodos();
+            const todos: todoSchema[] | [] = await findTodos();
             const deleteIndex = todos.findIndex(item => item.id == id);
             if (deleteIndex == -1) reject({ status: 404, error: new Error("Can't find a todo with given ID") });
             else {
@@ -108,10 +108,28 @@ export const deleteTodoById = async(id: string): Promise<boolean> => {
     });
 }
 
-export const deleteAllTodos = (): Promise<boolean> => {
-    return new Promise<boolean>(async(resolve, reject) => {
+export const deleteTodoByUserId = async (userId: string): Promise<boolean> => {
+    return new Promise<boolean>(async (resolve, reject) => {
         try {
-            const todos:any[] = [];
+            const todos: todoSchema[] | [] = await findTodos();
+            const deleteIndex = todos.findIndex(item => item.userId == userId);
+            if (deleteIndex == -1) reject({ status: 404, error: new Error("Can't find any todos in given Id") });
+            else {
+                const updatedTodos: todoSchema[] | [] = todos.filter(item => item.userId !== userId);
+                await saveTodos(updatedTodos);
+                resolve(true)
+            }
+        } catch (error) {
+            loggers.error(error);
+            reject({ status: 500, error: new Error(`Cant delete todo due to ${error} `) });
+        }
+    });
+}
+
+export const deleteAllTodos = (): Promise<boolean> => {
+    return new Promise<boolean>(async (resolve, reject) => {
+        try {
+            const todos: any[] = [];
             saveTodos(todos);
             resolve(true);
         } catch (error) {

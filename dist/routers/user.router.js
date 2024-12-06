@@ -10,8 +10,10 @@ exports.router.post('/create-todo', auth_middleware_1.authMiddleware, controller
 // read all todos
 exports.router.get('/read-all-todos', auth_middleware_1.authMiddleware, controllers_1.readAllTodoController);
 // read todos by user
-exports.router.get('/read-todos', auth_middleware_1.authMiddleware, controllers_1.readTodoByUserController);
+exports.router.get('/read-todos', auth_middleware_1.authMiddleware, controllers_1.readTodosByUserController);
 // update todo
 exports.router.put('/update-todo/:id', auth_middleware_1.authMiddleware, controllers_1.updateTodoController);
 // delete a todo
 exports.router.delete('/delete-todo/:id', auth_middleware_1.authMiddleware, controllers_1.deleteTodoController);
+// delete todos by user
+exports.router.delete('/delete-todos', auth_middleware_1.authMiddleware, controllers_1.deleteTodosByUser);

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTodoController = exports.updateTodoController = exports.readTodoByUserController = exports.readAllTodoController = exports.createTodoController = void 0;
+exports.deleteTodosByUser = exports.deleteTodoController = exports.updateTodoController = exports.readTodosByUserController = exports.readAllTodoController = exports.createTodoController = void 0;
 const winston_util_1 = require("../utils/winston.util");
 const config_1 = require("../config");
 const services_1 = require("../services");
@@ -76,7 +76,7 @@ const readAllTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.readAllTodoController = readAllTodoController;
-const readTodoByUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const readTodosByUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -97,7 +97,7 @@ const readTodoByUserController = (req, res) => __awaiter(void 0, void 0, void 0,
         res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
-exports.readTodoByUserController = readTodoByUserController;
+exports.readTodosByUserController = readTodosByUserController;
 const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -173,3 +173,28 @@ const deleteTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.deleteTodoController = deleteTodoController;
+const deleteTodosByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
+        if (!userId) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        const existingUser = yield (0, services_1.findUserById)(userId);
+        if (!existingUser) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        yield (0, services_1.deleteTodoByUserId)(userId);
+        res.status(200).json({ messege: `Deleted all todos added by ${existingUser.username}` });
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        if (error.status == 404)
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+        else
+            res.status(500).json({ messege: 'Something went wrong', error });
+    }
+});
+exports.deleteTodosByUser = deleteTodosByUser;
