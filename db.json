@@ -3,7 +3,7 @@
     {
       "id": "91d256c47a9a1939a9123bf",
       "userId": "2511ac20b8d919377966590",
-      "description": "run around",
+      "description": "complete this application by today",
       "completed": true,
       "timestamp": 1733465023424
     },
@@ -32,7 +32,7 @@
       "id": "fa1509e9901f1939aa90c4e",
       "userId": "2275764ebc271939aa71fe5",
       "description": "complete this application by today",
-      "completed": false,
+      "completed": true,
       "timestamp": 1733466590286
     }
   ],

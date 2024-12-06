@@ -1,8 +1,8 @@
 import { Response } from "express";
 import { loggers } from "../utils/winston.util";
-import { customRequest, todoReqBody, todoSchema, updateTodoReqBody, userSchema, } from "../types";
+import { customRequest, todoReqBody, todoSchema,  userSchema, } from "../types";
 import { generateId } from "../config";
-import { findTodosByUserId, findTodos, findUserById, insertTodo, findTodoById, updateTodoById } from "../services";
+import { findTodosByUserId, findTodos, findUserById, insertTodo, findTodoById, updateTodoById, deleteTodoById } from "../services";
 
 
 
@@ -73,6 +73,7 @@ export const readAllTodoController = async (req: customRequest, res: Response) =
     }
 }
 
+
 export const readTodoByUserController = async (req: customRequest, res: Response) => {
     try {
         const userId: string | undefined = req.payload?.id;
@@ -96,7 +97,50 @@ export const readTodoByUserController = async (req: customRequest, res: Response
 }
 
 
-export const updateTodoController = async (req: customRequest<{}, any, updateTodoReqBody>, res: Response) => {
+export const updateTodoController = async (req: customRequest<{id:string}, any, todoReqBody>, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { description, completed } = req.body;
+        if (typeof description !== 'string' || typeof completed !== 'boolean') {
+            res.status(400).json({ error: 'Invalid request body' });
+            return;
+        }
+
+        const userId: string | undefined = req.payload?.id;
+        if (!userId) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+
+        const existingUser: userSchema | undefined = await findUserById(userId);
+        if (!existingUser) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        
+        const existingTodo:todoSchema | undefined = await findTodoById(id);
+        if(!existingTodo){
+            res.status(404).json({error:'Not found any todo item with given id'});
+            return;
+        }
+        if(existingTodo.userId!==userId){
+            res.status(401).json({error:"You are unauthorized to update this todo"});
+            return;
+        }
+        existingTodo.description = description;
+        existingTodo.completed = completed;
+        await updateTodoById(id,existingTodo);
+        res.statusMessage = 'Updated Successfully'
+        res.status(200).json({messege:'todo item updated successfully',body:existingTodo})
+    } catch (error:any) {
+        loggers.error(error);
+        if (error.status == 404) res.status(404).json({messege:'Not found any todo item with given id'});
+        else res.status(500).json({ messege: 'Something went wrong', error });
+    }
+}
+
+
+export const deleteTodoController = async (req: customRequest<{id:string}>, res: Response) => {
     try {
         const userId: string | undefined = req.payload?.id;
         if (!userId) {
@@ -110,28 +154,19 @@ export const updateTodoController = async (req: customRequest<{}, any, updateTod
             return;
         }
 
-        const { id, todo } = req.body;
-        const { description, completed } = todo;
-        if (typeof id !== 'string' || typeof description !== 'string' || typeof completed !== 'boolean') {
-            res.status(400).json({error:'Invalid request body'});
+        const { id } = req.params;
+        const existingTodo = await findTodoById(id);
+        if(existingTodo.userId!==userId){
+            res.status(401).json({ error: "You are unauthorized to delete this todo" });
             return;
         }
 
-        const existingTodo:todoSchema | undefined = await findTodoById(id);
-        if(!existingTodo){
-            res.status(404).json({error:'Not found any todo item with given id'});
-        }
-        existingTodo.description = description;
-        existingTodo.completed = completed;
-        await updateTodoById(id,existingTodo);
-        res.statusMessage = 'Updated Successfully'
-        res.status(200).json({messege:'todo item updated successfully',body:existingTodo})
-    } catch (error) {
+        await deleteTodoById(id);
+        res.statusMessage="Deleted Successflly"
+        res.status(200).json({messege:'Deleted todo with diven id'});
+    } catch (error:any) {
         loggers.error(error);
-        res.status(500).json({ messege: 'Something went wrong', error })
+        if (error.status == 404) res.status(404).json({ messege: 'Not found any todo item with given id' });
+        else res.status(500).json({ messege: 'Something went wrong', error });
     }
-}
-
-export const deleteTodoController = async (req: customRequest, res: Response) => {
-    
 }

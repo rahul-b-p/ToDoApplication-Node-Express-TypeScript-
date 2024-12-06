@@ -13,10 +13,3 @@ export interface todoReqBody{
     completed:boolean
 }
 
-export interface updateTodoReqBody{
-    id:string,
-    todo:{
-        description: string,
-        completed: boolean,
-    }
-}

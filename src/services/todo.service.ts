@@ -22,7 +22,7 @@ export const findTodoById = async(id: string): Promise<todoSchema> => {
             const todos: todoSchema[] | [] = await findTodos();
             const todo: todoSchema | undefined = todos.find(item => item.id == id);
             if (todo) resolve(todo);
-            else reject({ status: 500, error: new Error(`Can't find todo with given ID`) });
+            else reject({ status: 404, error: new Error(`Can't find todo with given ID`) });
         } catch (error) {
             loggers.error(error);
             reject({ status: 500, error: new Error(`Cant find todo due to ${error} `) });
@@ -36,7 +36,7 @@ export const findTodosByUserId = async (userId: string): Promise<todoSchema[]> =
             const todos: todoSchema[] | [] = await findTodos();
             const todo: todoSchema[] | [] = todos.filter(item => item.userId == userId);
             if (todo) resolve(todo);
-            else reject({ status: 500, error: new Error(`Can't find todo with given ID`) });
+            else reject({ status: 404, error: new Error(`Can't find todo with given ID`) });
         } catch (error) {
             loggers.error(error);
             reject({ status: 500, error: new Error(`Cant find todo due to ${error} `) });

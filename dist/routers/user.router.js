@@ -12,4 +12,6 @@ exports.router.get('/read-all-todos', auth_middleware_1.authMiddleware, controll
 // read todos by user
 exports.router.get('/read-todos', auth_middleware_1.authMiddleware, controllers_1.readTodoByUserController);
 // update todo
-exports.router.put('/update-todo', auth_middleware_1.authMiddleware, controllers_1.updateTodoController);
+exports.router.put('/update-todo/:id', auth_middleware_1.authMiddleware, controllers_1.updateTodoController);
+// delete a todo
+exports.router.delete('/delete-todo/:id', auth_middleware_1.authMiddleware, controllers_1.deleteTodoController);

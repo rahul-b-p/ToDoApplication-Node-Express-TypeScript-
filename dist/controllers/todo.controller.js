@@ -101,6 +101,12 @@ exports.readTodoByUserController = readTodoByUserController;
 const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
+        const { id } = req.params;
+        const { description, completed } = req.body;
+        if (typeof description !== 'string' || typeof completed !== 'boolean') {
+            res.status(400).json({ error: 'Invalid request body' });
+            return;
+        }
         const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
         if (!userId) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
@@ -111,15 +117,14 @@ const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
         }
-        const { id, todo } = req.body;
-        const { description, completed } = todo;
-        if (typeof id !== 'string' || typeof description !== 'string' || typeof completed !== 'boolean') {
-            res.status(400).json({ error: 'Invalid request body' });
-            return;
-        }
         const existingTodo = yield (0, services_1.findTodoById)(id);
         if (!existingTodo) {
             res.status(404).json({ error: 'Not found any todo item with given id' });
+            return;
+        }
+        if (existingTodo.userId !== userId) {
+            res.status(401).json({ error: "You are unauthorized to update this todo" });
+            return;
         }
         existingTodo.description = description;
         existingTodo.completed = completed;
@@ -129,10 +134,42 @@ const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     catch (error) {
         winston_util_1.loggers.error(error);
-        res.status(500).json({ messege: 'Something went wrong', error });
+        if (error.status == 404)
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+        else
+            res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
 exports.updateTodoController = updateTodoController;
 const deleteTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
+        if (!userId) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        const existingUser = yield (0, services_1.findUserById)(userId);
+        if (!existingUser) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        const { id } = req.params;
+        const existingTodo = yield (0, services_1.findTodoById)(id);
+        if (existingTodo.userId !== userId) {
+            res.status(401).json({ error: "You are unauthorized to delete this todo" });
+            return;
+        }
+        yield (0, services_1.deleteTodoById)(id);
+        res.statusMessage = "Deleted Successflly";
+        res.status(200).json({ messege: 'Deleted todo with diven id' });
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        if (error.status == 404)
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+        else
+            res.status(500).json({ messege: 'Something went wrong', error });
+    }
 });
 exports.deleteTodoController = deleteTodoController;

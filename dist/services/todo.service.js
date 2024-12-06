@@ -34,7 +34,7 @@ const findTodoById = (id) => __awaiter(void 0, void 0, void 0, function* () {
             if (todo)
                 resolve(todo);
             else
-                reject({ status: 500, error: new Error(`Can't find todo with given ID`) });
+                reject({ status: 404, error: new Error(`Can't find todo with given ID`) });
         }
         catch (error) {
             winston_util_1.loggers.error(error);
@@ -51,7 +51,7 @@ const findTodosByUserId = (userId) => __awaiter(void 0, void 0, void 0, function
             if (todo)
                 resolve(todo);
             else
-                reject({ status: 500, error: new Error(`Can't find todo with given ID`) });
+                reject({ status: 404, error: new Error(`Can't find todo with given ID`) });
         }
         catch (error) {
             winston_util_1.loggers.error(error);
