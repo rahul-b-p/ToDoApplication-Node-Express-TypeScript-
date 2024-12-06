@@ -45,7 +45,7 @@ export const loginController = async (req: Request<{}, any, userLoginBody>, res:
             if(isVerifiedPassword){
                 const accessToken = getAccessToken(existingUser.id);
                 res.statusMessage="Login Successfull";
-                res.status(200).json({auth:true,accessToken});
+                res.status(200).json({auth:true,accessToken});  
             }
             else{
                 res.statusMessage = "Incorrect Password";

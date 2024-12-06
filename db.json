@@ -13,6 +13,27 @@
       "description": "write the code",
       "completed": false,
       "timestamp": 1733465066225
+    },
+    {
+      "id": "45a64be545f41939aa6549a",
+      "userId": "2511ac20b8d919377966590",
+      "description": "tweet a post",
+      "completed": false,
+      "timestamp": 1733466412187
+    },
+    {
+      "id": "c8e9b4c35b0e1939aa8bb7d",
+      "userId": "2275764ebc271939aa71fe5",
+      "description": "watch news",
+      "completed": false,
+      "timestamp": 1733466569597
+    },
+    {
+      "id": "fa1509e9901f1939aa90c4e",
+      "userId": "2275764ebc271939aa71fe5",
+      "description": "drink cola",
+      "completed": false,
+      "timestamp": 1733466590286
     }
   ],
   "users": [
@@ -39,6 +60,12 @@
       "username": "sudu",
       "email": "sudu@gmail.com",
       "hashPassword": "$2b$10$U4E9gPgxkmpgewVFgo9rHuABXOa9kQfJu0JXWmXVnbfv/HxutFUqu"
+    },
+    {
+      "id": "2275764ebc271939aa71fe5",
+      "username": "rajan",
+      "email": "rajan@gmail.com",
+      "hashPassword": "$2b$10$aiwSjWcfHgVSzRfULViDIubC/xOYk7dPt9lzB4TCAmBaRSfpTRcEa"
     }
   ]
 }

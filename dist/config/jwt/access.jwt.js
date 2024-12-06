@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAccessToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getAccessToken = (id) => {
-    const secretKey = process.env.ACCESS_TOKEN_SECERT;
+    const secretKey = process.env.ACCESS_TOKEN_SECRET;
     if (!secretKey) {
         throw new Error('Access token secret is not defined');
     }
