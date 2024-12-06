@@ -13,3 +13,10 @@ export interface todoReqBody{
     completed:boolean
 }
 
+export interface updateUserBody{
+    currentPassword:string,
+    updatePassword?:string,
+    updateEmail?:string,
+    updateUsername?:string
+}
+

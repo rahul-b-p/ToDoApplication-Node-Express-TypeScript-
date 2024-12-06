@@ -4,10 +4,12 @@ exports.router = void 0;
 const express_1 = require("express");
 const controllers_1 = require("../controllers");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
-const user_controller_1 = require("../controllers/user.controller");
+const controllers_2 = require("../controllers");
 exports.router = (0, express_1.Router)();
 // read all users
-exports.router.get('/read', auth_middleware_1.authMiddleware, user_controller_1.readAllUsersControlller);
+exports.router.get('/read', auth_middleware_1.authMiddleware, controllers_2.readAllUsersControlller);
+// update user
+exports.router.put('/update', auth_middleware_1.authMiddleware, controllers_2.updateUserConroller);
 // create todo
 exports.router.post('/create-todo', auth_middleware_1.authMiddleware, controllers_1.createTodoController);
 // read all todos

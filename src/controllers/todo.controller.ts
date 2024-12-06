@@ -186,8 +186,8 @@ export const deleteTodosByUser = async (req: customRequest, res: Response) => {
         }
 
         await deleteTodoByUserId(userId);
-        res.status(200).json({messege:`Deleted all todos added by ${existingUser.username}`});
-    } catch (error:any) {
+        res.status(200).json({ messege: `Deleted all todos added by ${existingUser.username}` });
+    } catch (error: any) {
         loggers.error(error);
         if (error.status == 404) res.status(404).json({ messege: 'Not found any todo item with given id' });
         else res.status(500).json({ messege: 'Something went wrong', error });

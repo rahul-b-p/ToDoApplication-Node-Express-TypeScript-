@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readAllUsersControlller = void 0;
+exports.updateUserConroller = exports.readAllUsersControlller = void 0;
 const services_1 = require("../services");
 const winston_util_1 = require("../utils/winston.util");
+const config_1 = require("../config");
 const readAllUsersControlller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -35,3 +36,43 @@ const readAllUsersControlller = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.readAllUsersControlller = readAllUsersControlller;
+const updateUserConroller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const { currentPassword, updatePassword, updateEmail, updateUsername } = req.body;
+        if (typeof currentPassword !== 'string' || (typeof updatePassword !== 'string' && typeof updateEmail !== 'string' && typeof updateUsername !== 'string')) {
+            res.status(400).json({ error: 'Invalid Request Body' });
+            return;
+        }
+        const id = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
+        if (!id) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        const existingUser = yield (0, services_1.findUserById)(id);
+        if (!existingUser) {
+            res.status(401).json({ messege: 'You are requested from an invalid user id' });
+            return;
+        }
+        const isVerifiedPassword = yield (0, config_1.verifyPassword)(currentPassword, existingUser.hashPassword);
+        if (!isVerifiedPassword) {
+            res.status(400).json({ messege: 'Entered Password is InCorrect, please check' });
+            return;
+        }
+        const hashPassword = updatePassword ? yield (0, config_1.getEncryptedPassword)(updatePassword) : existingUser.hashPassword;
+        const updatedUser = {
+            id,
+            username: updateUsername ? updateUsername : existingUser.username,
+            email: updateEmail ? updateEmail : existingUser.email,
+            hashPassword
+        };
+        yield (0, services_1.updateUserById)(id, updatedUser);
+        res.statusMessage = "Updated Successfully";
+        res.status(200).json({ messege: 'user updated successfully', body: { username: updatedUser.username, email: updatedUser.email } });
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        res.status(500).json({ message: 'Something went wrong', error });
+    }
+});
+exports.updateUserConroller = updateUserConroller;
