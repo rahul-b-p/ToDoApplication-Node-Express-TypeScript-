@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 
 
-export const createTodoController = async (req: Request, res: Response) => {
+export const createTodoController = async (req:Request, res: Response) => {
     
 }
 

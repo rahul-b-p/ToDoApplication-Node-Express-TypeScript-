@@ -16,3 +16,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./db.type"), exports);
 __exportStar(require("./reqBody.type"), exports);
+__exportStar(require("./customRequest.type"), exports);
+__exportStar(require("./jwtPayload.type"), exports);
