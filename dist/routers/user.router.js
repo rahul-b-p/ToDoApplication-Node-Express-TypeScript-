@@ -7,5 +7,7 @@ const auth_middleware_1 = require("../middlewares/auth.middleware");
 exports.router = (0, express_1.Router)();
 // create todo
 exports.router.post('/create-todo', auth_middleware_1.authMiddleware, controllers_1.createTodoController);
-// read all todo
-exports.router.get('/read-all-todo', auth_middleware_1.authMiddleware, controllers_1.readAllTodoController);
+// read all todos
+exports.router.get('/read-all-todos', auth_middleware_1.authMiddleware, controllers_1.readAllTodoController);
+// read todos by user
+exports.router.get('/read-todos', auth_middleware_1.authMiddleware, controllers_1.readTodoByUserController);

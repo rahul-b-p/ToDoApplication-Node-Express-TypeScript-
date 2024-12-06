@@ -30,6 +30,20 @@ export const findTodoById = async(id: string): Promise<todoSchema> => {
     });
 }
 
+export const findTodosByUserId = async (userId: string): Promise<todoSchema[]> => {
+    return new Promise<todoSchema[]>(async (resolve, reject) => {
+        try {
+            const todos: todoSchema[] | [] = await findTodos();
+            const todo: todoSchema[] | [] = todos.filter(item => item.userId == userId);
+            if (todo) resolve(todo);
+            else reject({ status: 500, error: new Error(`Can't find todo with given ID`) });
+        } catch (error) {
+            loggers.error(error);
+            reject({ status: 500, error: new Error(`Cant find todo due to ${error} `) });
+        }
+    });
+}
+
 export const saveTodos = async(todos: todoSchema[]|[]): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
         try {

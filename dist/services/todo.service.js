@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAllTodos = exports.deleteTodoById = exports.updateTodoById = exports.insertTodo = exports.saveTodos = exports.findTodoById = exports.findTodos = void 0;
+exports.deleteAllTodos = exports.deleteTodoById = exports.updateTodoById = exports.insertTodo = exports.saveTodos = exports.findTodosByUserId = exports.findTodoById = exports.findTodos = void 0;
 const winston_util_1 = require("../utils/winston.util");
 const file_service_1 = require("./file.service");
 const findTodos = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,6 +43,23 @@ const findTodoById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }));
 });
 exports.findTodoById = findTodoById;
+const findTodosByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const todos = yield (0, exports.findTodos)();
+            const todo = todos.filter(item => item.userId == userId);
+            if (todo)
+                resolve(todo);
+            else
+                reject({ status: 500, error: new Error(`Can't find todo with given ID`) });
+        }
+        catch (error) {
+            winston_util_1.loggers.error(error);
+            reject({ status: 500, error: new Error(`Cant find todo due to ${error} `) });
+        }
+    }));
+});
+exports.findTodosByUserId = findTodosByUserId;
 const saveTodos = (todos) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
         try {
