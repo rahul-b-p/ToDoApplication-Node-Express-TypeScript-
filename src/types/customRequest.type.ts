@@ -1,7 +1,13 @@
-import { Request } from "express";
+import { Request } from 'express';
 
-export interface customRequest extends Request{
-    payload?:{
-        id:string
-    }
+export interface customRequest<
+    P = {},
+    resBody = {},
+    reqBody = {},
+    reqQuery = qs.ParsedQs,
+    Local extends Record<string, any> = Record<string, any>
+> extends Request<P, reqBody, resBody, reqQuery, Local> {
+    payload?: {
+        id: string;
+    };
 }
