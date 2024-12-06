@@ -10,6 +10,10 @@ import { getAccessToken } from "../config/jwt";
 export const signupController = async (req: Request<{}, null, userSignupBody>, res: Response) => {
     try {
         const { username, email, password } = req.body;
+        if (typeof username !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+            res.status(400).json({ error: 'Invalid Request Body' });
+            return;
+        }
 
         const existingUser = await findUserByMail(email);
         if (existingUser) {
@@ -39,15 +43,19 @@ export const signupController = async (req: Request<{}, null, userSignupBody>, r
 export const loginController = async (req: Request<{}, any, userLoginBody>, res: Response) => {
     try {
         const { email, password } = req.body;
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            res.status(400).json({ error: 'Invalid ReqBody' });
+            return;
+        }
         const existingUser: userSchema | null = await findUserByMail(email);
         if (existingUser) {
             const isVerifiedPassword = await verifyPassword(password, existingUser.hashPassword);
-            if(isVerifiedPassword){
+            if (isVerifiedPassword) {
                 const accessToken = getAccessToken(existingUser.id);
-                res.statusMessage="Login Successfull";
-                res.status(200).json({auth:true,accessToken});  
+                res.statusMessage = "Login Successfull";
+                res.status(200).json({ auth: true, accessToken });
             }
-            else{
+            else {
                 res.statusMessage = "Incorrect Password";
                 res.status(400).json({ messege: "Entered Password is incorrect, please check again" });
             }

@@ -6,7 +6,7 @@ export interface customRequest<
     reqBody = {},
     reqQuery = qs.ParsedQs,
     Local extends Record<string, any> = Record<string, any>
-> extends Request<P, reqBody, resBody, reqQuery, Local> {
+> extends Request<P, resBody, reqBody, reqQuery, Local> {
     payload?: {
         id: string;
     };

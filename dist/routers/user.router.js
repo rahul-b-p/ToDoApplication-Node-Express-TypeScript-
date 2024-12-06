@@ -11,3 +11,5 @@ exports.router.post('/create-todo', auth_middleware_1.authMiddleware, controller
 exports.router.get('/read-all-todos', auth_middleware_1.authMiddleware, controllers_1.readAllTodoController);
 // read todos by user
 exports.router.get('/read-todos', auth_middleware_1.authMiddleware, controllers_1.readTodoByUserController);
+// update todo
+exports.router.put('/update-todo', auth_middleware_1.authMiddleware, controllers_1.updateTodoController);

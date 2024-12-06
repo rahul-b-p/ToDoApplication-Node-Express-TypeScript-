@@ -17,6 +17,10 @@ const jwt_1 = require("../config/jwt");
 const signupController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
+        if (typeof username !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+            res.status(400).json({ error: 'Invalid Request Body' });
+            return;
+        }
         const existingUser = yield (0, services_1.findUserByMail)(email);
         if (existingUser) {
             res.status(409).json({ messege: "User Already Exists" });
@@ -44,6 +48,10 @@ exports.signupController = signupController;
 const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            res.status(400).json({ error: 'Invalid ReqBody' });
+            return;
+        }
         const existingUser = yield (0, services_1.findUserByMail)(email);
         if (existingUser) {
             const isVerifiedPassword = yield (0, config_1.verifyPassword)(password, existingUser.hashPassword);
