@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { loggers } from "../utils/winston.util";
 import { customRequest } from "../types";
+import { checkTokenBlacklist } from "../config/token.config";
 
 function isJwtPayload(payload: string | JwtPayload): payload is JwtPayload {
     return typeof payload !== 'string' && payload !== null;
@@ -24,6 +25,12 @@ export const authMiddleware = async (req: customRequest, res: Response, next: Ne
         }
 
         const jwtResponse = jwt.verify(accessToken, secretKey) as JwtPayload;
+
+        const isJwtBlacklisted = await checkTokenBlacklist(accessToken);
+        loggers.info(isJwtBlacklisted);
+        if(isJwtBlacklisted){
+            res.status(400).json({ error: 'Invalid token' })
+        }
 
         if (isJwtPayload(jwtResponse) && jwtResponse.id) {
             req.payload = { id: jwtResponse.id };

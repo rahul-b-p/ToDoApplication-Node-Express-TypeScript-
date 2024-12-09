@@ -1,1 +1,1 @@
-export * from './access.jwt'
+export * from './access.jwt';

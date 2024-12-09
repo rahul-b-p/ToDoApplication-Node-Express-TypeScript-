@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authMiddleware = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const winston_util_1 = require("../utils/winston.util");
+const token_config_1 = require("../config/token.config");
 function isJwtPayload(payload) {
     return typeof payload !== 'string' && payload !== null;
 }
@@ -32,6 +33,11 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             return;
         }
         const jwtResponse = jsonwebtoken_1.default.verify(accessToken, secretKey);
+        const isJwtBlacklisted = yield (0, token_config_1.checkTokenBlacklist)(accessToken);
+        winston_util_1.loggers.info(isJwtBlacklisted);
+        if (isJwtBlacklisted) {
+            res.status(400).json({ error: 'Invalid token' });
+        }
         if (isJwtPayload(jwtResponse) && jwtResponse.id) {
             req.payload = { id: jwtResponse.id };
             next();

@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginController = exports.signupController = void 0;
+exports.logoutController = exports.loginController = exports.signupController = void 0;
 const config_1 = require("../config");
 const services_1 = require("../services");
 const winston_util_1 = require("../utils/winston.util");
 const jwt_1 = require("../config/jwt");
+const token_config_1 = require("../config/token.config");
 const signupController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
@@ -71,6 +72,29 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
     }
     catch (error) {
+        winston_util_1.loggers.error(error);
+        res.status(500).send(error);
     }
 });
 exports.loginController = loginController;
+const logoutController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const accessToken = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
+        if (accessToken) {
+            const isBlacklisted = yield (0, token_config_1.blackListToken)(accessToken);
+            // loggers.info(isBlacklisted);
+            if (isBlacklisted) {
+                res.status(200).json({ message: 'Logged out successfully' });
+            }
+            else {
+                res.status(500).json({ message: 'Failed to blacklist token' });
+            }
+        }
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        res.status(500).send(error);
+    }
+});
+exports.logoutController = logoutController;

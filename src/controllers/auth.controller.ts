@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { userLoginBody, userSchema, userSignupBody } from "../types";
+import { customRequest, userLoginBody, userSchema, userSignupBody } from "../types";
 import { generateId, getEncryptedPassword, verifyPassword } from "../config";
-import { findUserByMail, insertUser } from "../services";
+import { findUserById, findUserByMail, insertUser } from "../services";
 import { loggers } from "../utils/winston.util";
 import { getAccessToken } from "../config/jwt";
+import { blackListToken } from "../config/token.config";
 
 
 
@@ -65,6 +66,27 @@ export const loginController = async (req: Request<{}, any, userLoginBody>, res:
             res.status(404).json({ messege: "No any existing user with given email, Please Sign up" });
         }
     } catch (error) {
+        loggers.error(error);
+        res.status(500).send(error)
+    }
+}
 
+export const logoutController = async (req: Request, res: Response) => {
+    try {
+
+        const accessToken = req.headers.authorization?.split(' ')[1];
+        if (accessToken) {
+            const isBlacklisted = await blackListToken(accessToken);
+            // loggers.info(isBlacklisted);
+            if (isBlacklisted) {
+                res.status(200).json({ message: 'Logged out successfully' });
+            } else {
+                res.status(500).json({ message: 'Failed to blacklist token' });
+            }
+        }
+
+    } catch (error) {
+        loggers.error(error);
+        res.status(500).send(error)
     }
 }

@@ -89,6 +89,7 @@ const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, fun
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
         }
+        yield (0, services_1.deleteTodoByUserId)(id);
         yield (0, services_1.deleteUserById)(id);
         res.statusMessage = "Deleted User";
         res.status(200).json({ message: 'Your Account has been removed successfully' });

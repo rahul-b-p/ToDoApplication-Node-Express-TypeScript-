@@ -8,3 +8,5 @@ exports.router = (0, express_1.Router)();
 exports.router.post('/signup', controllers_1.signupController);
 // login
 exports.router.post('/login', controllers_1.loginController);
+// logout
+exports.router.post('/logout', controllers_1.logoutController);

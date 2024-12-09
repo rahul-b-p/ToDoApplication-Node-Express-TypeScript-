@@ -6,13 +6,13 @@ import { readAllUsersControlller, updateUserConroller } from '../controllers';
 export const router = Router();
 
 // read all users
-router.get('/read',authMiddleware,readAllUsersControlller)
+router.get('/read',authMiddleware,readAllUsersControlller);
 
 // update user
-router.put('/update',authMiddleware,updateUserConroller)
+router.put('/update',authMiddleware,updateUserConroller);
 
 // delete user
-router.put('/delete',authMiddleware, deleteUserController)
+router.delete('/delete',authMiddleware, deleteUserController);
 
 // create todo
 router.post('/create-todo', authMiddleware, createTodoController);

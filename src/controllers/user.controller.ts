@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { customRequest, updateUserBody, userSchema } from "../types";
-import { deleteUserById, findUserById, findUsers, updateUserById } from "../services";
+import { deleteTodoByUserId, deleteUserById, findUserById, findUsers, updateUserById } from "../services";
 import { loggers } from "../utils/winston.util";
 import { getEncryptedPassword, verifyPassword } from "../config";
 
@@ -89,6 +89,7 @@ export const deleteUserController = async (req: customRequest, res: Response) =>
             return;
         }
 
+        await deleteTodoByUserId(id);
         await deleteUserById(id);
         res.statusMessage="Deleted User";
         res.status(200).json({message:'Your Account has been removed successfully'});

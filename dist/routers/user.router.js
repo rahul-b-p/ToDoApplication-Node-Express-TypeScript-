@@ -11,7 +11,7 @@ exports.router.get('/read', auth_middleware_1.authMiddleware, controllers_2.read
 // update user
 exports.router.put('/update', auth_middleware_1.authMiddleware, controllers_2.updateUserConroller);
 // delete user
-exports.router.put('/delete', auth_middleware_1.authMiddleware, controllers_1.deleteUserController);
+exports.router.delete('/delete', auth_middleware_1.authMiddleware, controllers_1.deleteUserController);
 // create todo
 exports.router.post('/create-todo', auth_middleware_1.authMiddleware, controllers_1.createTodoController);
 // read all todos
