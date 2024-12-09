@@ -31,10 +31,7 @@ const findUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const users = yield (0, exports.findUsers)();
             const user = users.find(item => item.id == id);
-            if (user)
-                resolve(user);
-            else
-                reject({ status: 500, error: new Error(`Can't find user with given ID`) });
+            resolve(user ? user : null);
         }
         catch (error) {
             winston_util_1.loggers.error(error);

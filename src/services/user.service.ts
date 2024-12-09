@@ -16,13 +16,12 @@ export const findUsers = async (): Promise<userSchema[] | []> => {
     });
 }
 
-export const findUserById = async (id: string): Promise<userSchema> => {
-    return new Promise<userSchema>(async (resolve, reject) => {
+export const findUserById = async (id: string): Promise<userSchema | null> => {
+    return new Promise<userSchema | null>(async (resolve, reject) => {
         try {
             const users: userSchema[] | [] = await findUsers();
             const user: userSchema | undefined = users.find(item => item.id == id);
-            if (user) resolve(user);
-            else reject({ status: 500, error: new Error(`Can't find user with given ID`) });
+            resolve(user ? user : null)
         } catch (error) {
             loggers.error(error);
             reject({ status: 500, error: new Error(`Cant find user due to ${error} `) });
@@ -30,8 +29,8 @@ export const findUserById = async (id: string): Promise<userSchema> => {
     });
 }
 
-export const findUserByMail = async (email:string):Promise<userSchema|null> =>{
-    return new Promise(async(resolve,reject)=>{
+export const findUserByMail = async (email: string): Promise<userSchema | null> => {
+    return new Promise(async (resolve, reject) => {
         try {
             const users: userSchema[] | [] = await findUsers();
             const user: userSchema | undefined = users.find(item => item.email == email);

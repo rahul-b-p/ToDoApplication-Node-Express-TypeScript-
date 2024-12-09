@@ -1,78 +1,98 @@
 {
-    "todos": [
-        {
-            "id": "91d256c47a9a1939a9123bf",
-            "userId": "2511ac20b8d919377966590",
-            "description": "complete this application by today",
-            "completed": true,
-            "timestamp": 1733465023424
-        },
-        {
-            "id": "0f44c55d02fe1939a91caf1",
-            "userId": "2511ac20b8d919377966590",
-            "description": "write the code",
-            "completed": false,
-            "timestamp": 1733465066225
-        },
-        {
-            "id": "45a64be545f41939aa6549a",
-            "userId": "2511ac20b8d919377966590",
-            "description": "tweet a post",
-            "completed": false,
-            "timestamp": 1733466412187
-        },
-        {
-            "id": "c8e9b4c35b0e1939aa8bb7d",
-            "userId": "2275764ebc271939aa71fe5",
-            "description": "watch news",
-            "completed": false,
-            "timestamp": 1733466569597
-        },
-        {
-            "id": "fa1509e9901f1939aa90c4e",
-            "userId": "2275764ebc271939aa71fe5",
-            "description": "complete this application by today",
-            "completed": true,
-            "timestamp": 1733466590286
-        },
-        {
-            "id": "d58f6ee40697193aa38ad74",
-            "userId": "2511ac20b8d919377966590",
-            "description": "need to complete logout",
-            "completed": false,
-            "timestamp": 1733727661428
-        }
-    ],
-    "users": [
-        {
-            "id": "b51e1f808e711937781476e",
-            "username": "abhi",
-            "email": "abhi@gmail.com",
-            "hashPassword": "$2b$10$Km8PNr32il98bgEtS2eoyepRzeeq2XqY41zQNILiYOMh354JyJfu6"
-        },
-        {
-            "id": "34def11ffd181937783310b",
-            "username": "ram",
-            "email": "ram@gmail.com",
-            "hashPassword": "$2b$10$Ok0oDJKYLzqpU3iaGv3j/uQNm7c2Jk5t3AdXPZpPWUPr2TqLwn/fG"
-        },
-        {
-            "id": "754b0b52a8cc1937794fbaf",
-            "username": "kintu",
-            "email": "kintu@gmail.com",
-            "hashPassword": "$2b$10$SmIQZfw72GJdFRofpx6JPu2XfG.fqazCGUkbizRNMtKmAmJfH/AIu"
-        },
-        {
-            "id": "2511ac20b8d919377966590",
-            "username": "sudu",
-            "email": "sudu@gmail.com",
-            "hashPassword": "$2b$10$U4E9gPgxkmpgewVFgo9rHuABXOa9kQfJu0JXWmXVnbfv/HxutFUqu"
-        },
-        {
-            "id": "2275764ebc271939aa71fe5",
-            "username": "rajan@12",
-            "email": "rajan@gmail.com",
-            "hashPassword": "$2b$10$qq5.vnstifDBNGzV3aFnt.1DYwr22HnK8YnbRAstMRf0jg4F.Sshu"
-        }
-    ]
+  "todos": [
+    {
+      "id": "91d256c47a9a1939a9123bf",
+      "userId": "2511ac20b8d919377966590",
+      "description": "complete this application by today",
+      "completed": true,
+      "timestamp": 1733465023424
+    },
+    {
+      "id": "0f44c55d02fe1939a91caf1",
+      "userId": "2511ac20b8d919377966590",
+      "description": "write the code",
+      "completed": false,
+      "timestamp": 1733465066225
+    },
+    {
+      "id": "45a64be545f41939aa6549a",
+      "userId": "2511ac20b8d919377966590",
+      "description": "tweet a post",
+      "completed": false,
+      "timestamp": 1733466412187
+    },
+    {
+      "id": "c8e9b4c35b0e1939aa8bb7d",
+      "userId": "2275764ebc271939aa71fe5",
+      "description": "watch news",
+      "completed": false,
+      "timestamp": 1733466569597
+    },
+    {
+      "id": "fa1509e9901f1939aa90c4e",
+      "userId": "2275764ebc271939aa71fe5",
+      "description": "complete this application by today",
+      "completed": true,
+      "timestamp": 1733466590286
+    },
+    {
+      "id": "d58f6ee40697193aa38ad74",
+      "userId": "2511ac20b8d919377966590",
+      "description": "need to complete logout",
+      "completed": false,
+      "timestamp": 1733727661428
+    },
+    {
+      "id": "c73bd84c3d61193ab0da2a0",
+      "userId": "268c56e5b221193ab04e506",
+      "description": "check all apis",
+      "completed": false,
+      "timestamp": 1733741617824
+    },
+    {
+      "id": "c6e85b4ccfbe193ab0dcff5",
+      "userId": "268c56e5b221193ab04e506",
+      "description": "submit ",
+      "completed": false,
+      "timestamp": 1733741629429
+    }
+  ],
+  "users": [
+    {
+      "id": "b51e1f808e711937781476e",
+      "username": "abhi",
+      "email": "abhi@gmail.com",
+      "hashPassword": "$2b$10$Km8PNr32il98bgEtS2eoyepRzeeq2XqY41zQNILiYOMh354JyJfu6"
+    },
+    {
+      "id": "34def11ffd181937783310b",
+      "username": "ram",
+      "email": "ram@gmail.com",
+      "hashPassword": "$2b$10$Ok0oDJKYLzqpU3iaGv3j/uQNm7c2Jk5t3AdXPZpPWUPr2TqLwn/fG"
+    },
+    {
+      "id": "754b0b52a8cc1937794fbaf",
+      "username": "kintu",
+      "email": "kintu@gmail.com",
+      "hashPassword": "$2b$10$SmIQZfw72GJdFRofpx6JPu2XfG.fqazCGUkbizRNMtKmAmJfH/AIu"
+    },
+    {
+      "id": "2511ac20b8d919377966590",
+      "username": "sudu",
+      "email": "sudu@gmail.com",
+      "hashPassword": "$2b$10$U4E9gPgxkmpgewVFgo9rHuABXOa9kQfJu0JXWmXVnbfv/HxutFUqu"
+    },
+    {
+      "id": "2275764ebc271939aa71fe5",
+      "username": "rajan@12",
+      "email": "rajan@gmail.com",
+      "hashPassword": "$2b$10$qq5.vnstifDBNGzV3aFnt.1DYwr22HnK8YnbRAstMRf0jg4F.Sshu"
+    },
+    {
+      "id": "268c56e5b221193ab04e506",
+      "username": "raju",
+      "email": "raju@gmail.com",
+      "hashPassword": "$2b$10$MycxkFDNiXrcOQcVDIWqGuoq1/W/VbyC/LvOY2Ghy77WEsm6i0skm"
+    }
+  ]
 }

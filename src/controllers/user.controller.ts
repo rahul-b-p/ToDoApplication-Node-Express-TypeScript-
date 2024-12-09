@@ -46,7 +46,7 @@ export const updateUserConroller = async (req: customRequest<{}, any, updateUser
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(id);
+        const existingUser: userSchema | null = await findUserById(id);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
@@ -84,7 +84,7 @@ export const deleteUserController = async (req: customRequest, res: Response) =>
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(id);
+        const existingUser: userSchema | null = await findUserById(id);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;

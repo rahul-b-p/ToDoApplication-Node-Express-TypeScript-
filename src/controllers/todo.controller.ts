@@ -14,11 +14,12 @@ export const createTodoController = async (req: customRequest<{}, any, todoReqBo
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(userId);
+        const existingUser: userSchema | null = await findUserById(userId);
         if (!existingUser) {
             res.status(404).json({ messege: 'You are requested from an invalid user id' });
             return;
         }
+        
 
         const { description, completed } = req.body
 
@@ -59,7 +60,7 @@ export const readAllTodoController = async (req: customRequest, res: Response) =
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(userId);
+        const existingUser: userSchema | null = await findUserById(userId);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
@@ -82,7 +83,7 @@ export const readTodosByUserController = async (req: customRequest, res: Respons
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(userId);
+        const existingUser: userSchema | null = await findUserById(userId);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
@@ -112,7 +113,7 @@ export const updateTodoController = async (req: customRequest<{ id: string }, an
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(userId);
+        const existingUser: userSchema | null = await findUserById(userId);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
@@ -148,7 +149,7 @@ export const deleteTodoController = async (req: customRequest<{ id: string }>, r
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(userId);
+        const existingUser: userSchema | null = await findUserById(userId);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
@@ -179,7 +180,7 @@ export const deleteTodosByUser = async (req: customRequest, res: Response) => {
             return;
         }
 
-        const existingUser: userSchema | undefined = await findUserById(userId);
+        const existingUser: userSchema | null = await findUserById(userId);
         if (!existingUser) {
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
