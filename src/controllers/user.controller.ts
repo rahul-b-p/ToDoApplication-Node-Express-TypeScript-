@@ -3,7 +3,8 @@ import { customRequest, updateUserBody, userSchema } from "../types";
 import { deleteTodoByUserId, deleteUserById, findUserById, findUsers, updateUserById } from "../services";
 import { loggers } from "../utils/winston.util";
 import { getEncryptedPassword, verifyPassword } from "../config";
-
+import { blackListToken } from "../config/token.config";
+import { fileMutex } from "../utils/mutex.utils";
 
 
 
@@ -75,7 +76,7 @@ export const updateUserConroller = async (req: customRequest<{}, any, updateUser
     }
 }
 
-export const deleteUserController = async (req: customRequest, res: Response) => { 
+export const deleteUserController = async (req: customRequest, res: Response) => {
     try {
         const id: string | undefined = req.payload?.id;
         if (!id) {
@@ -89,10 +90,17 @@ export const deleteUserController = async (req: customRequest, res: Response) =>
             return;
         }
 
-        await deleteTodoByUserId(id);
-        await deleteUserById(id);
-        res.statusMessage="Deleted User";
-        res.status(200).json({message:'Your Account has been removed successfully'});
+        const accessToken = req.headers.authorization?.split(' ')[1];
+        if (accessToken) {
+            const isBlacklisted = await blackListToken(accessToken);
+            if (isBlacklisted) {
+                await deleteUserById(id);
+                res.statusMessage = "Successfully Deleted";
+                res.status(200).json({ message: 'Your Account has been removed successfully' });
+            } else {
+                res.status(500).json({ message: 'Account Deletion Failed Due to blacklisting your token' });
+            }
+        }
     } catch (error) {
         loggers.error(error);
         res.status(500).json({ message: 'Something went wrong', error });

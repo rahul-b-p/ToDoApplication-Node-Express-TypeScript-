@@ -27,9 +27,9 @@ export const authMiddleware = async (req: customRequest, res: Response, next: Ne
         const jwtResponse = jwt.verify(accessToken, secretKey) as JwtPayload;
 
         const isJwtBlacklisted = await checkTokenBlacklist(accessToken);
-        loggers.info(isJwtBlacklisted);
         if(isJwtBlacklisted){
-            res.status(400).json({ error: 'Invalid token' })
+            res.status(400).json({ error: 'Invalid token' });
+            return;
         }
 
         if (isJwtPayload(jwtResponse) && jwtResponse.id) {
@@ -37,6 +37,7 @@ export const authMiddleware = async (req: customRequest, res: Response, next: Ne
             next();
         } else {
             res.status(401).json({ error: 'Invalid token' });
+            return;
         }
     } catch (error) {
         loggers.error('Authentication error', error);

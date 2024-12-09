@@ -77,9 +77,9 @@ export const logoutController = async (req: Request, res: Response) => {
         const accessToken = req.headers.authorization?.split(' ')[1];
         if (accessToken) {
             const isBlacklisted = await blackListToken(accessToken);
-            // loggers.info(isBlacklisted);
             if (isBlacklisted) {
-                res.status(200).json({ message: 'Logged out successfully' });
+                res.statusMessage="Logout Successfull";
+                res.status(200).json({ message: 'Succsessfully completed your logout with invalidation of accesstoken' });
             } else {
                 res.status(500).json({ message: 'Failed to blacklist token' });
             }

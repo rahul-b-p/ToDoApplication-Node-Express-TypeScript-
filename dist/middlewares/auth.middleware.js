@@ -34,9 +34,9 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         }
         const jwtResponse = jsonwebtoken_1.default.verify(accessToken, secretKey);
         const isJwtBlacklisted = yield (0, token_config_1.checkTokenBlacklist)(accessToken);
-        winston_util_1.loggers.info(isJwtBlacklisted);
         if (isJwtBlacklisted) {
             res.status(400).json({ error: 'Invalid token' });
+            return;
         }
         if (isJwtPayload(jwtResponse) && jwtResponse.id) {
             req.payload = { id: jwtResponse.id };
@@ -44,6 +44,7 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         }
         else {
             res.status(401).json({ error: 'Invalid token' });
+            return;
         }
     }
     catch (error) {

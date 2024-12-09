@@ -13,6 +13,7 @@ exports.deleteUserController = exports.updateUserConroller = exports.readAllUser
 const services_1 = require("../services");
 const winston_util_1 = require("../utils/winston.util");
 const config_1 = require("../config");
+const token_config_1 = require("../config/token.config");
 const readAllUsersControlller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -77,7 +78,7 @@ const updateUserConroller = (req, res) => __awaiter(void 0, void 0, void 0, func
 });
 exports.updateUserConroller = updateUserConroller;
 const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     try {
         const id = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
         if (!id) {
@@ -89,10 +90,18 @@ const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, fun
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
         }
-        yield (0, services_1.deleteTodoByUserId)(id);
-        yield (0, services_1.deleteUserById)(id);
-        res.statusMessage = "Deleted User";
-        res.status(200).json({ message: 'Your Account has been removed successfully' });
+        const accessToken = (_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(' ')[1];
+        if (accessToken) {
+            const isBlacklisted = yield (0, token_config_1.blackListToken)(accessToken);
+            if (isBlacklisted) {
+                yield (0, services_1.deleteUserById)(id);
+                res.statusMessage = "Successfully Deleted";
+                res.status(200).json({ message: 'Your Account has been removed successfully' });
+            }
+            else {
+                res.status(500).json({ message: 'Account Deletion Failed Due to blacklisting your token' });
+            }
+        }
     }
     catch (error) {
         winston_util_1.loggers.error(error);

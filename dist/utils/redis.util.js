@@ -12,18 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@redis/client");
 const winston_util_1 = require("./winston.util");
 const redisClient = (0, client_1.createClient)();
-redisClient.on('connect', () => {
-    winston_util_1.loggers.info('Connected to Redis');
-});
-redisClient.on('error', (error) => {
-    winston_util_1.loggers.error({ message: 'Redis Error', error });
-});
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield redisClient.connect();
-    }
-    catch (error) {
-        winston_util_1.loggers.error(`Reddis Connection Failed:${error}`);
+    if (!redisClient.isOpen) {
+        try {
+            yield redisClient.connect();
+            winston_util_1.loggers.info('Connected to Redis');
+        }
+        catch (err) {
+            winston_util_1.loggers.error('Failed to connect to Redis:', err);
+        }
     }
 }))();
 exports.default = redisClient;

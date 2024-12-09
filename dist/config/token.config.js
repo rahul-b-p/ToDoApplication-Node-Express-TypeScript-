@@ -13,11 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkTokenBlacklist = exports.blackListToken = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const redis_util_1 = __importDefault(require("../utils/redis.util"));
 const blackListToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const result = yield redis_util_1.default.set(token, 'Blacklisted');
+            const { exp } = jsonwebtoken_1.default.decode(token);
+            const expiresIn = exp - Math.floor(Date.now() / 1000);
+            const result = yield redis_util_1.default.set(token, 'Blacklisted', { 'EX': expiresIn });
             resolve(result);
         }
         catch (error) {
