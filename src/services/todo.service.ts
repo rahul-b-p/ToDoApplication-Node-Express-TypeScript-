@@ -109,21 +109,16 @@ export const deleteTodoById = async (id: string): Promise<boolean> => {
 }
 
 export const deleteTodoByUserId = async (userId: string): Promise<boolean> => {
-    return new Promise<boolean>(async (resolve, reject) => {
-        try {
-            const todos: todoSchema[] | [] = await findTodos();
-            const deleteIndex = todos.findIndex(item => item.userId == userId);
-            if (deleteIndex == -1) reject({ status: 404, error: new Error("Can't find any todos in given Id") });
-            else {
-                const updatedTodos: todoSchema[] | [] = todos.filter(item => item.userId !== userId);
-                await saveTodos(updatedTodos);
-                resolve(true)
-            }
-        } catch (error) {
-            loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant delete todo due to ${error} `) });
-        }
-    });
+    try {
+        const todos: todoSchema[] | [] = await findTodos();
+        const updatedTodos: todoSchema[] | [] = todos.filter(item => item.userId !== userId);
+        await saveTodos(updatedTodos);
+        return true;
+    } catch (error) {
+        loggers.error(error);
+        throw new Error('Error Happens while Deletion');
+    }
+
 }
 
 export const deleteAllTodos = (): Promise<boolean> => {

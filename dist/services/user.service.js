@@ -108,22 +108,20 @@ const updateUserById = (id, updateTodo) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.updateUserById = updateUserById;
 const deleteUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const users = yield (0, exports.findUsers)();
-            const deleteIndex = users.findIndex(item => item.id == id);
-            if (deleteIndex == -1)
-                reject({ status: 404, error: new Error("Can't find a user with given ID") });
-            else {
-                users.splice(deleteIndex, 1);
-                yield (0, exports.saveUsers)(users);
-                resolve(true);
-            }
+    try {
+        const users = yield (0, exports.findUsers)();
+        const deleteIndex = users.findIndex(item => item.id == id);
+        if (deleteIndex == -1)
+            throw new Error('Not find given user for Delete');
+        else {
+            users.splice(deleteIndex, 1);
+            yield (0, exports.saveUsers)(users);
+            return true;
         }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant delete user due to ${error} `) });
-        }
-    }));
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error('User Deletion Failed');
+    }
 });
 exports.deleteUserById = deleteUserById;

@@ -94,9 +94,14 @@ const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, fun
         if (accessToken) {
             const isBlacklisted = yield (0, token_config_1.blackListToken)(accessToken);
             if (isBlacklisted) {
-                yield (0, services_1.deleteUserById)(id);
-                res.statusMessage = "Successfully Deleted";
-                res.status(200).json({ message: 'Your Account has been removed successfully' });
+                const [userDeleted, todosDeleted] = yield Promise.all([
+                    (0, services_1.deleteUserById)(id),
+                    (0, services_1.deleteTodoByUserId)(id)
+                ]);
+                if (userDeleted && todosDeleted) {
+                    res.statusMessage = "Successfully Deleted";
+                    res.status(200).json({ message: 'Your Account has been removed successfully' });
+                }
             }
             else {
                 res.status(500).json({ message: 'Account Deletion Failed Due to blacklisting your token' });

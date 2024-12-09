@@ -131,23 +131,16 @@ const deleteTodoById = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteTodoById = deleteTodoById;
 const deleteTodoByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const todos = yield (0, exports.findTodos)();
-            const deleteIndex = todos.findIndex(item => item.userId == userId);
-            if (deleteIndex == -1)
-                reject({ status: 404, error: new Error("Can't find any todos in given Id") });
-            else {
-                const updatedTodos = todos.filter(item => item.userId !== userId);
-                yield (0, exports.saveTodos)(updatedTodos);
-                resolve(true);
-            }
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant delete todo due to ${error} `) });
-        }
-    }));
+    try {
+        const todos = yield (0, exports.findTodos)();
+        const updatedTodos = todos.filter(item => item.userId !== userId);
+        yield (0, exports.saveTodos)(updatedTodos);
+        return true;
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error('Error Happens while Deletion');
+    }
 });
 exports.deleteTodoByUserId = deleteTodoByUserId;
 const deleteAllTodos = () => {

@@ -94,9 +94,15 @@ export const deleteUserController = async (req: customRequest, res: Response) =>
         if (accessToken) {
             const isBlacklisted = await blackListToken(accessToken);
             if (isBlacklisted) {
-                await deleteUserById(id);
-                res.statusMessage = "Successfully Deleted";
-                res.status(200).json({ message: 'Your Account has been removed successfully' });
+
+                const [userDeleted,todosDeleted] = await Promise.all([
+                    deleteUserById(id),
+                    deleteTodoByUserId(id)
+                ])
+                if (userDeleted && todosDeleted) {
+                    res.statusMessage = "Successfully Deleted";
+                    res.status(200).json({ message: 'Your Account has been removed successfully' });
+                }
             } else {
                 res.status(500).json({ message: 'Account Deletion Failed Due to blacklisting your token' });
             }

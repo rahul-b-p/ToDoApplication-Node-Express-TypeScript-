@@ -90,19 +90,17 @@ export const updateUserById = async (id: string, updateTodo: userSchema): Promis
 }
 
 export const deleteUserById = async (id: string): Promise<boolean> => {
-    return new Promise<boolean>(async (resolve, reject) => {
-        try {
-            const users: userSchema[] | [] = await findUsers();
-            const deleteIndex = users.findIndex(item => item.id == id);
-            if (deleteIndex == -1) reject({ status: 404, error: new Error("Can't find a user with given ID") });
-            else {
-                users.splice(deleteIndex, 1);
-                await saveUsers(users);
-                resolve(true)
-            }
-        } catch (error) {
-            loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant delete user due to ${error} `) });
+    try {
+        const users: userSchema[] | [] = await findUsers();
+        const deleteIndex = users.findIndex(item => item.id == id);
+        if (deleteIndex == -1) throw new Error('Not find given user for Delete');
+        else {
+            users.splice(deleteIndex, 1);
+            await saveUsers(users);
+            return true;
         }
-    });
+    } catch (error) {
+        loggers.error(error);
+        throw new Error('User Deletion Failed');
+    }
 }
