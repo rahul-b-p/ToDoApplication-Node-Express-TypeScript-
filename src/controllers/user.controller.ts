@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { customRequest, updateUserBody, userSchema } from "../types";
-import { deleteTodoByUserId, deleteUserById, findUserById, findUsers, updateUserById } from "../services";
+import { deleteAccountById, deleteTodoByUserId, deleteUserById, findUserById, findUsers, updateUserById } from "../services";
 import { loggers } from "../utils/winston.util";
 import { getEncryptedPassword, verifyPassword } from "../config";
 import { blackListToken } from "../config/token.config";
@@ -94,15 +94,9 @@ export const deleteUserController = async (req: customRequest, res: Response) =>
         if (accessToken) {
             const isBlacklisted = await blackListToken(accessToken);
             if (isBlacklisted) {
-
-                const [userDeleted,todosDeleted] = await Promise.all([
-                    deleteUserById(id),
-                    deleteTodoByUserId(id)
-                ])
-                if (userDeleted && todosDeleted) {
-                    res.statusMessage = "Successfully Deleted";
-                    res.status(200).json({ message: 'Your Account has been removed successfully' });
-                }
+                await deleteAccountById(id);
+                res.statusMessage = "Successfully Deleted";
+                res.status(200).json({ message: 'Your Account has been removed successfully' });
             } else {
                 res.status(500).json({ message: 'Account Deletion Failed Due to blacklisting your token' });
             }
