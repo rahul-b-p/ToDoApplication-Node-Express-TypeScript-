@@ -99,7 +99,19 @@
       "id": "268c56e5b221193ab04e506",
       "username": "raju",
       "email": "raju@gmail.com",
-      "hashPassword": "$2b$10$MycxkFDNiXrcOQcVDIWqGuoq1/W/VbyC/LvOY2Ghy77WEsm6i0skm"
+      "hashPassword": "$2b$10$JKR6lrnidAYdrkt3pDfJD.8M.xaF04/5oM1Ke9n5fxkdQF9WhbWhe"
+    },
+    {
+      "id": "ea591739c338193aefb5e09",
+      "username": "abu",
+      "email": "abu@gmail.com",
+      "hashPassword": "$2b$10$qq/gsqEqwd.i4u6tRGDxBekslu/d1w0xJd1OXmvZVKluSib.4PEhO"
+    },
+    {
+      "id": "739de589b401193aefdf334",
+      "username": "aju",
+      "email": "aju@gmail.com",
+      "hashPassword": "$2b$10$UUHe8Aan5pKv4tUCTi7FZeYG23D6KI3c5c2l1HG.BwCsu6ArfZHGC"
     }
   ]
 }

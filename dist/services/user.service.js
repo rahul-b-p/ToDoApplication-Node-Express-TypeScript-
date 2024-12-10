@@ -13,98 +13,86 @@ exports.deleteUserById = exports.updateUserById = exports.insertUser = exports.s
 const winston_util_1 = require("../utils/winston.util");
 const file_service_1 = require("./file.service");
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const data = yield (0, file_service_1.readData)();
-            const { users } = data;
-            resolve(users);
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant find users due to ${error} `) });
-        }
-    }));
+    try {
+        const data = yield (0, file_service_1.readData)();
+        const { users } = data;
+        return users;
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error(`Cant find users due to ${error} `);
+    }
 });
 exports.findUsers = findUsers;
 const findUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const users = yield (0, exports.findUsers)();
-            const user = users.find(item => item.id == id);
-            resolve(user ? user : null);
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant find user due to ${error} `) });
-        }
-    }));
+    try {
+        const users = yield (0, exports.findUsers)();
+        const user = users.find(item => item.id == id);
+        return user ? user : null;
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error(`Cant find user due to ${error} `);
+    }
 });
 exports.findUserById = findUserById;
 const findUserByMail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const users = yield (0, exports.findUsers)();
-            const user = users.find(item => item.email == email);
-            if (user)
-                resolve(user);
-            else
-                resolve(null);
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant find user due to ${error} `) });
-        }
-    }));
+    try {
+        const users = yield (0, exports.findUsers)();
+        const user = users.find(item => item.email == email);
+        if (user)
+            return user;
+        else
+            return null;
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error(`Cant find user due to ${error} `);
+    }
 });
 exports.findUserByMail = findUserByMail;
 const saveUsers = (users) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const data = yield (0, file_service_1.readData)();
-            data.users = users;
-            yield (0, file_service_1.writeData)(data);
-            resolve(true);
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant save user due to ${error} `) });
-        }
-    }));
+    try {
+        const data = yield (0, file_service_1.readData)();
+        data.users = users;
+        yield (0, file_service_1.writeData)(data);
+        return true;
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error(`Cant save user due to ${error} `);
+    }
 });
 exports.saveUsers = saveUsers;
 const insertUser = (newTodo) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const users = yield (0, exports.findUsers)();
-            users.push(newTodo);
-            yield (0, exports.saveUsers)(users);
-            resolve(true);
-        }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant insert user due to ${error} `) });
-        }
-    }));
+    try {
+        const users = yield (0, exports.findUsers)();
+        users.push(newTodo);
+        yield (0, exports.saveUsers)(users);
+        return true;
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error(`Cant insert user due to ${error} `);
+    }
 });
 exports.insertUser = insertUser;
 const updateUserById = (id, updateTodo) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const users = yield (0, exports.findUsers)();
-            const updateIndex = users.findIndex(item => item.id == id);
-            if (updateIndex == -1)
-                reject({ status: 404, error: new Error("Can't find a user with given ID") });
-            else {
-                users[updateIndex] = updateTodo;
-                yield (0, exports.saveUsers)(users);
-                resolve(true);
-            }
+    try {
+        const users = yield (0, exports.findUsers)();
+        const updateIndex = users.findIndex(item => item.id == id);
+        if (updateIndex == -1)
+            return false;
+        else {
+            users[updateIndex] = updateTodo;
+            yield (0, exports.saveUsers)(users);
+            return true;
         }
-        catch (error) {
-            winston_util_1.loggers.error(error);
-            reject({ status: 500, error: new Error(`Cant update user due to ${error} `) });
-        }
-    }));
+    }
+    catch (error) {
+        winston_util_1.loggers.error(error);
+        throw new Error(`Cant update user due to ${error} `);
+    }
 });
 exports.updateUserById = updateUserById;
 const deleteUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
