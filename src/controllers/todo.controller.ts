@@ -19,7 +19,7 @@ export const createTodoController = async (req: customRequest<{}, any, todoReqBo
             res.status(404).json({ messege: 'You are requested from an invalid user id' });
             return;
         }
-        
+
 
         const { description, completed } = req.body
 
@@ -90,6 +90,10 @@ export const readTodosByUserController = async (req: customRequest, res: Respons
         }
 
         const todos = await findTodosByUserId(userId);
+        if(!todos){
+            res.status(404).json({message:'No todows added by the user'});
+            return;
+        }
         res.status(200).json({ messege: `Findout the  all todos added by ${existingUser.username}`, body: todos })
     } catch (error) {
         loggers.error(error);
@@ -119,7 +123,7 @@ export const updateTodoController = async (req: customRequest<{ id: string }, an
             return;
         }
 
-        const existingTodo: todoSchema | undefined = await findTodoById(id);
+        const existingTodo: todoSchema | null = await findTodoById(id);
         if (!existingTodo) {
             res.status(404).json({ error: 'Not found any todo item with given id' });
             return;
@@ -135,8 +139,7 @@ export const updateTodoController = async (req: customRequest<{ id: string }, an
         res.status(200).json({ messege: 'todo item updated successfully', body: existingTodo })
     } catch (error: any) {
         loggers.error(error);
-        if (error.status == 404) res.status(404).json({ messege: 'Not found any todo item with given id' });
-        else res.status(500).json({ messege: 'Something went wrong', error });
+        res.status(500).json({ messege: 'Something went wrong', error });
     }
 }
 
@@ -157,20 +160,24 @@ export const deleteTodoController = async (req: customRequest<{ id: string }>, r
 
         const { id } = req.params;
         const existingTodo = await findTodoById(id);
-        if (existingTodo.userId !== userId) {
+        if (existingTodo && existingTodo.userId !== userId) {
             res.status(401).json({ error: "You are unauthorized to delete this todo" });
             return;
         }
 
-        await deleteTodoById(id);
+        const result = await deleteTodoById(id);
+        if (!result) {
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+            return;
+        }
         res.statusMessage = "Deleted Successflly"
         res.status(200).json({ messege: 'Deleted todo with diven id' });
     } catch (error: any) {
         loggers.error(error);
-        if (error.status == 404) res.status(404).json({ messege: 'Not found any todo item with given id' });
-        else res.status(500).json({ messege: 'Something went wrong', error });
+        res.status(500).json({ messege: 'Something went wrong', error });
     }
 }
+
 
 export const deleteTodosByUser = async (req: customRequest, res: Response) => {
     try {
@@ -186,11 +193,16 @@ export const deleteTodosByUser = async (req: customRequest, res: Response) => {
             return;
         }
 
-        await deleteTodoByUserId(userId);
+        const result = await deleteTodoByUserId(userId);
+        loggers.info(result);
+        if (!result) {
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+            return;
+        }
+        res.statusMessage = " Deleted Successfully";
         res.status(200).json({ messege: `Deleted all todos added by ${existingUser.username}` });
     } catch (error: any) {
         loggers.error(error);
-        if (error.status == 404) res.status(404).json({ messege: 'Not found any todo item with given id' });
-        else res.status(500).json({ messege: 'Something went wrong', error });
+        res.status(500).json({ messege: 'Something went wrong', error });
     }
 }

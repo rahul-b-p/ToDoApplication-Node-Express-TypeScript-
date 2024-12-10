@@ -90,6 +90,10 @@ const readTodosByUserController = (req, res) => __awaiter(void 0, void 0, void 0
             return;
         }
         const todos = yield (0, services_1.findTodosByUserId)(userId);
+        if (!todos) {
+            res.status(404).json({ message: 'No todows added by the user' });
+            return;
+        }
         res.status(200).json({ messege: `Findout the  all todos added by ${existingUser.username}`, body: todos });
     }
     catch (error) {
@@ -134,10 +138,7 @@ const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     catch (error) {
         winston_util_1.loggers.error(error);
-        if (error.status == 404)
-            res.status(404).json({ messege: 'Not found any todo item with given id' });
-        else
-            res.status(500).json({ messege: 'Something went wrong', error });
+        res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
 exports.updateTodoController = updateTodoController;
@@ -156,20 +157,21 @@ const deleteTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
         }
         const { id } = req.params;
         const existingTodo = yield (0, services_1.findTodoById)(id);
-        if (existingTodo.userId !== userId) {
+        if (existingTodo && existingTodo.userId !== userId) {
             res.status(401).json({ error: "You are unauthorized to delete this todo" });
             return;
         }
-        yield (0, services_1.deleteTodoById)(id);
+        const result = yield (0, services_1.deleteTodoById)(id);
+        if (!result) {
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+            return;
+        }
         res.statusMessage = "Deleted Successflly";
         res.status(200).json({ messege: 'Deleted todo with diven id' });
     }
     catch (error) {
         winston_util_1.loggers.error(error);
-        if (error.status == 404)
-            res.status(404).json({ messege: 'Not found any todo item with given id' });
-        else
-            res.status(500).json({ messege: 'Something went wrong', error });
+        res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
 exports.deleteTodoController = deleteTodoController;
@@ -186,15 +188,18 @@ const deleteTodosByUser = (req, res) => __awaiter(void 0, void 0, void 0, functi
             res.status(401).json({ messege: 'You are requested from an invalid user id' });
             return;
         }
-        yield (0, services_1.deleteTodoByUserId)(userId);
+        const result = yield (0, services_1.deleteTodoByUserId)(userId);
+        winston_util_1.loggers.info(result);
+        if (!result) {
+            res.status(404).json({ messege: 'Not found any todo item with given id' });
+            return;
+        }
+        res.statusMessage = " Deleted Successfully";
         res.status(200).json({ messege: `Deleted all todos added by ${existingUser.username}` });
     }
     catch (error) {
         winston_util_1.loggers.error(error);
-        if (error.status == 404)
-            res.status(404).json({ messege: 'Not found any todo item with given id' });
-        else
-            res.status(500).json({ messege: 'Something went wrong', error });
+        res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
 exports.deleteTodosByUser = deleteTodosByUser;
