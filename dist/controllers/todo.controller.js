@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTodosByUser = exports.deleteTodoController = exports.updateTodoController = exports.readTodosByUserController = exports.readAllTodoController = exports.createTodoController = void 0;
+exports.deleteTodosByUser = exports.deleteTodo = exports.updateTodo = exports.readTodosByUser = exports.readAllTodo = exports.createTodo = void 0;
 const winston_util_1 = require("../utils/winston.util");
 const config_1 = require("../config");
 const services_1 = require("../services");
-const createTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -53,8 +53,8 @@ const createTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
-exports.createTodoController = createTodoController;
-const readAllTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createTodo = createTodo;
+const readAllTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -75,8 +75,8 @@ const readAllTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
-exports.readAllTodoController = readAllTodoController;
-const readTodosByUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.readAllTodo = readAllTodo;
+const readTodosByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -101,8 +101,8 @@ const readTodosByUserController = (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
-exports.readTodosByUserController = readTodosByUserController;
-const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.readTodosByUser = readTodosByUser;
+const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const { id } = req.params;
@@ -141,8 +141,8 @@ const updateTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
-exports.updateTodoController = updateTodoController;
-const deleteTodoController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateTodo = updateTodo;
+const deleteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const userId = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -174,7 +174,7 @@ const deleteTodoController = (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).json({ messege: 'Something went wrong', error });
     }
 });
-exports.deleteTodoController = deleteTodoController;
+exports.deleteTodo = deleteTodo;
 const deleteTodosByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {

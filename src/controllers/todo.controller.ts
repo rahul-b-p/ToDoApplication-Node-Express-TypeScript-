@@ -6,7 +6,7 @@ import { findTodosByUserId, findTodos, findUserById, insertTodo, findTodoById, u
 
 
 
-export const createTodoController = async (req: customRequest<{}, any, todoReqBody>, res: Response) => {
+export const createTodo = async (req: customRequest<{}, any, todoReqBody>, res: Response) => {
     try {
         const userId: string | undefined = req.payload?.id;
         if (!userId) {
@@ -52,7 +52,7 @@ export const createTodoController = async (req: customRequest<{}, any, todoReqBo
 }
 
 
-export const readAllTodoController = async (req: customRequest, res: Response) => {
+export const readAllTodo = async (req: customRequest, res: Response) => {
     try {
         const userId: string | undefined = req.payload?.id;
         if (!userId) {
@@ -75,7 +75,7 @@ export const readAllTodoController = async (req: customRequest, res: Response) =
 }
 
 
-export const readTodosByUserController = async (req: customRequest, res: Response) => {
+export const readTodosByUser = async (req: customRequest, res: Response) => {
     try {
         const userId: string | undefined = req.payload?.id;
         if (!userId) {
@@ -90,8 +90,8 @@ export const readTodosByUserController = async (req: customRequest, res: Respons
         }
 
         const todos = await findTodosByUserId(userId);
-        if(!todos){
-            res.status(404).json({message:'No todows added by the user'});
+        if (!todos) {
+            res.status(404).json({ message: 'No todows added by the user' });
             return;
         }
         res.status(200).json({ messege: `Findout the  all todos added by ${existingUser.username}`, body: todos })
@@ -102,7 +102,7 @@ export const readTodosByUserController = async (req: customRequest, res: Respons
 }
 
 
-export const updateTodoController = async (req: customRequest<{ id: string }, any, todoReqBody>, res: Response) => {
+export const updateTodo = async (req: customRequest<{ id: string }, any, todoReqBody>, res: Response) => {
     try {
         const { id } = req.params;
         const { description, completed } = req.body;
@@ -144,7 +144,7 @@ export const updateTodoController = async (req: customRequest<{ id: string }, an
 }
 
 
-export const deleteTodoController = async (req: customRequest<{ id: string }>, res: Response) => {
+export const deleteTodo = async (req: customRequest<{ id: string }>, res: Response) => {
     try {
         const userId: string | undefined = req.payload?.id;
         if (!userId) {

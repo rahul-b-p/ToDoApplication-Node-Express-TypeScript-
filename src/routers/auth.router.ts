@@ -1,15 +1,15 @@
 import {Router} from 'express';
-import { loginController, logoutController, signupController } from '../controllers';
+import { login, logout, signup } from '../controllers';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
 export const router = Router();
 
 // signup
-router.post('/signup',signupController);
+router.post('/signup',signup);
 
 // login
-router.post('/login',loginController);
+router.post('/login',login);
 
 // logout
-router.post('/logout',authMiddleware,logoutController);
+router.post('/logout',authMiddleware,logout);
 

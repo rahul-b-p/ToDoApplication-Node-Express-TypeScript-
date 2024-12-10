@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserController = exports.updateUserConroller = exports.readAllUsersControlller = void 0;
+exports.deleteUser = exports.updateUser = exports.readAllUsers = void 0;
 const services_1 = require("../services");
 const winston_util_1 = require("../utils/winston.util");
 const config_1 = require("../config");
 const token_config_1 = require("../config/token.config");
-const readAllUsersControlller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const readAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const id = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -36,8 +36,8 @@ const readAllUsersControlller = (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).json({ message: 'Something went wrong', error });
     }
 });
-exports.readAllUsersControlller = readAllUsersControlller;
-const updateUserConroller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.readAllUsers = readAllUsers;
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const { currentPassword, updatePassword, updateEmail, updateUsername } = req.body;
@@ -76,8 +76,8 @@ const updateUserConroller = (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).json({ message: 'Something went wrong', error });
     }
 });
-exports.updateUserConroller = updateUserConroller;
-const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateUser = updateUser;
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     try {
         const id = (_a = req.payload) === null || _a === void 0 ? void 0 : _a.id;
@@ -108,4 +108,4 @@ const deleteUserController = (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).json({ message: 'Something went wrong', error });
     }
 });
-exports.deleteUserController = deleteUserController;
+exports.deleteUser = deleteUser;

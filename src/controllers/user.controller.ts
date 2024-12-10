@@ -8,7 +8,7 @@ import { blackListToken } from "../config/token.config";
 
 
 
-export const readAllUsersControlller = async (req: customRequest, res: Response) => {
+export const readAllUsers = async (req: customRequest, res: Response) => {
     try {
         const id = req.payload?.id;
         if (!id) {
@@ -32,7 +32,7 @@ export const readAllUsersControlller = async (req: customRequest, res: Response)
     }
 }
 
-export const updateUserConroller = async (req: customRequest<{}, any, updateUserBody>, res: Response) => {
+export const updateUser = async (req: customRequest<{}, any, updateUserBody>, res: Response) => {
     try {
         const { currentPassword, updatePassword, updateEmail, updateUsername } = req.body;
         if (typeof currentPassword !== 'string' || (typeof updatePassword !== 'string' && typeof updateEmail !== 'string' && typeof updateUsername !== 'string')) {
@@ -76,7 +76,7 @@ export const updateUserConroller = async (req: customRequest<{}, any, updateUser
     }
 }
 
-export const deleteUserController = async (req: customRequest, res: Response) => {
+export const deleteUser = async (req: customRequest, res: Response) => {
     try {
         const id: string | undefined = req.payload?.id;
         if (!id) {

@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { customRequest, userLoginBody, userSchema, userSignupBody } from "../types";
+import { userLoginBody, userSchema, userSignupBody } from "../types";
 import { generateId, getEncryptedPassword, verifyPassword } from "../config";
-import { findUserById, findUserByMail, insertUser } from "../services";
+import { findUserByMail, insertUser } from "../services";
 import { loggers } from "../utils/winston.util";
 import { getAccessToken } from "../config/jwt";
-import { blackListToken } from "../config/token.config";
+import { blackListToken } from "../config";
 
 
 
-export const signupController = async (req: Request<{}, null, userSignupBody>, res: Response) => {
+export const signup = async (req: Request<{}, null, userSignupBody>, res: Response) => {
     try {
         const { username, email, password } = req.body;
         if (typeof username !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
@@ -41,7 +41,7 @@ export const signupController = async (req: Request<{}, null, userSignupBody>, r
 }
 
 
-export const loginController = async (req: Request<{}, any, userLoginBody>, res: Response) => {
+export const login = async (req: Request<{}, any, userLoginBody>, res: Response) => {
     try {
         const { email, password } = req.body;
         if (typeof email !== 'string' || typeof password !== 'string') {
@@ -71,14 +71,14 @@ export const loginController = async (req: Request<{}, any, userLoginBody>, res:
     }
 }
 
-export const logoutController = async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response) => {
     try {
 
         const accessToken = req.headers.authorization?.split(' ')[1];
         if (accessToken) {
             const isBlacklisted = await blackListToken(accessToken);
             if (isBlacklisted) {
-                res.statusMessage="Logout Successfull";
+                res.statusMessage = "Logout Successfull";
                 res.status(200).json({ message: 'Succsessfully completed your logout with invalidation of accesstoken' });
             } else {
                 res.status(500).json({ message: 'Failed to blacklist token' });
